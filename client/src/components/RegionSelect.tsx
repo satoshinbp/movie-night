@@ -28,23 +28,13 @@ const getStyles = (region: string, regionCode: readonly string[], theme: Theme) 
 export default function RegionSelect({
   regions,
   selectedRegions,
-  setSelectedRegions,
+  onRegionChange,
 }: {
   regions: string[]
   selectedRegions: string[]
-  setSelectedRegions: React.Dispatch<React.SetStateAction<string[]>>
+  onRegionChange: (event: SelectChangeEvent<typeof selectedRegions>) => void
 }) {
   const theme = useTheme()
-
-  const handleChange = (event: SelectChangeEvent<typeof selectedRegions>) => {
-    const {
-      target: { value },
-    } = event
-    setSelectedRegions(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    )
-  }
 
   return (
     <FormControl sx={{ m: 1, width: 300 }}>
@@ -54,7 +44,7 @@ export default function RegionSelect({
         id="demo-multiple-chip"
         multiple
         value={selectedRegions}
-        onChange={handleChange}
+        onChange={onRegionChange}
         input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
         renderValue={(selected) => (
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>

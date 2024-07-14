@@ -1,0 +1,23 @@
+services:
+  backend:
+    build: ./
+    volumes:
+      - /app/venv
+    ports:
+      - '8000:8000'
+    env_file:
+      - ./.env
+  frontend:
+    build: ./client
+    volumes:
+      - ./client/src:/app/src
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./client/.env
+    stdin_open: true
+    tty: true
+# docker build -t movie-night-react .
+# docker run --name movie-night-client -v /Users/shinyasato/Documents/dev/00_personal/movie-night/client/src:/app/src -v /app/node_modules --rm -p 3000:3000 -it movie-night-react
+# docker build -t movie-night-python .
+# docker run --name movie-night -v /app/venv --rm -d -p 8000:8000 movie-night-python

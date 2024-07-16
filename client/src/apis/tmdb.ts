@@ -24,7 +24,7 @@ export const fetchWatchlist = async (): Promise<Movie[]> => {
   if (!ACCOUNT_ID) {
     throw Error('TMDB Account ID is not set')
   }
-  const url = BASE_URL + `${parseInt(ACCOUNT_ID)}/watchlist`
+  const url = BASE_URL + `accounts/${parseInt(ACCOUNT_ID)}/watchlist`
   const res = await axios.get(url)
   return res.data
 }
@@ -35,7 +35,7 @@ export interface Region {
   native_name: string
 }
 export const fetchRegions = async (): Promise<Region[]> => {
-  const url = BASE_URL + 'regions'
+  const url = BASE_URL + 'watch/regions'
   const res = await axios.get(url)
   return res.data
 }

@@ -8,4 +8,6 @@ This application scans your TMDB watchlist and highlights the movies available o
 
 ## Tech Stack
 
-Python, FastAPI, Docker, GitHub Actions(予定), React
+Python, FastAPI, Docker, GitHub Actions (planned), React
+
+<img width="1912" alt="Screenshot 2024-07-15 at 6 37 07 PM" src="https://github.com/user-attachments/assets/4726aeda-509b-43f9-b64e-beea71cb76c4">

@@ -6,6 +6,10 @@ This application scans your TMDB watchlist and highlights the movies available o
 
 事前に TMDB に登録した Watchlist をスキャンして，Netflix で視聴可能な映画をハイライトする．Docker，GitHub Actions，FastAPI の勉強も兼ねて作成した．ひとつずつ観たい映画を検索しなくてよいので，重宝している．
 
+## How to Use
+
+Clone repositiory and run `docker-compose up`
+
 ## Tech Stack
 
 Python, FastAPI, Docker, GitHub Actions (planned), React

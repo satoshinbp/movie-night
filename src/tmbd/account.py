@@ -1,10 +1,12 @@
 import requests
-from url import BASE_URL
-from ..types import Movie
+import os
+
+from src.schema import Movie
 
 
-def get_tmbd_watchlist(access_token: str, account_id: int) -> list[Movie]:
-    url = BASE_URL + f"account/{account_id}/watchlist/movies"
+def get_tmbd_watchlist(account_id: int) -> list[Movie]:
+    url = os.getenv("BASE_URL") + f"account/{account_id}/watchlist/movies"
+    access_token = os.getenv("TMDB_ACCESS_TOKEN")
     movies = []
     page = 1
     while True:

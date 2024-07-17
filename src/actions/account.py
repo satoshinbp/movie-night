@@ -1,16 +1,16 @@
 from src.tmbd.account import get_tmbd_watchlist
 from src.tmbd.movie import get_tmbd_provider, get_tmbd_runtime
 from src.tmbd.watch import get_tmbd_regions
-from src.types import Movie
+from src.schema import Movie
 
 
-def get_watchlist(access_token: str, account_id: int) -> list[Movie]:
-    movies = get_tmbd_watchlist(access_token, account_id)
-    regions = get_tmbd_regions(access_token)
+def get_watchlist(account_id: int) -> list[Movie]:
+    movies = get_tmbd_watchlist(account_id)
+    regions = get_tmbd_regions()
 
     for movie in movies:
-        providers = get_tmbd_provider(access_token, movie["id"])
-        runtime = get_tmbd_runtime(access_token, movie["id"])
+        providers = get_tmbd_provider(movie["id"])
+        runtime = get_tmbd_runtime(movie["id"])
         netflix_regions = []
         for region in regions:
             provider_region = providers.get(region["iso_3166_1"])

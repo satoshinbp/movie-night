@@ -1,6 +1,6 @@
 from src.tmbd.watch import get_tmbd_regions
-from ..types import Region
+from src.schema import Region
 
 
-def get_regions(access_token) -> list[Region]:
-    return get_tmbd_regions(access_token)
+def get_regions() -> list[Region]:
+    return get_tmbd_regions()

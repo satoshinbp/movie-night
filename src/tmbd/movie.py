@@ -1,10 +1,12 @@
 import requests
-from url import BASE_URL
-from ..types import Region
+import os
+
+from src.schema import Region
 
 
-def get_tmbd_provider(access_token: str, movie_id: int) -> list[Region]:
-    url = BASE_URL + f"movie/{movie_id}/watch/providers"
+def get_tmbd_provider(movie_id: int) -> list[Region]:
+    url = os.getenv("BASE_URL") + f"movie/{movie_id}/watch/providers"
+    access_token = os.getenv("TMDB_ACCESS_TOKEN")
     response = requests.get(
         url,
         headers={
@@ -15,8 +17,9 @@ def get_tmbd_provider(access_token: str, movie_id: int) -> list[Region]:
     return data["results"]
 
 
-def get_tmbd_runtime(access_token: str, movie_id: int) -> int:
-    url = BASE_URL + f"movie/{movie_id}"
+def get_tmbd_runtime(movie_id: int) -> int:
+    url = os.getenv("BASE_URL") + f"movie/{movie_id}"
+    access_token = os.getenv("TMDB_ACCESS_TOKEN")
     response = requests.get(
         url,
         headers={

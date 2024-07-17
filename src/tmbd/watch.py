@@ -1,10 +1,12 @@
 import requests
-from url import BASE_URL
-from ..types import Region
+import os
+
+from src.schema import Region
 
 
-def get_tmbd_regions(access_token) -> list[Region]:
-    url = BASE_URL + "watch/providers/regions"
+def get_tmbd_regions() -> list[Region]:
+    url = os.getenv("BASE_URL") + "watch/providers/regions"
+    access_token = os.getenv("TMDB_ACCESS_TOKEN")
     response = requests.get(
         url,
         params={

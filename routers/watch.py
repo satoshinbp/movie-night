@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from actions.watch import get_regions
-from schema import Region
+from schemas.tmdb import Region
 
 watch_router = APIRouter()
 

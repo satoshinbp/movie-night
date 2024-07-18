@@ -1,7 +1,7 @@
 import requests
 import os
 
-from schema import Movie
+from schemas.tmdb import Movie
 
 
 def get_tmbd_watchlist(account_id: int) -> list[Movie]:

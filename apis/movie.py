@@ -1,7 +1,7 @@
 import requests
 import os
 
-from schema import Region
+from schemas.tmdb import Region
 
 
 def get_tmbd_provider(movie_id: int) -> list[Region]:

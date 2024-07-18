@@ -4,10 +4,10 @@ from actions.account import get_watchlist
 
 
 class TestAccount(unittest.TestCase):
-    @patch("src.actions.account.get_tmbd_watchlist")
-    @patch("src.actions.account.get_tmbd_regions")
-    @patch("src.actions.account.get_tmbd_provider")
-    @patch("src.actions.account.get_tmbd_runtime")
+    @patch("actions.account.get_tmbd_watchlist")
+    @patch("actions.account.get_tmbd_regions")
+    @patch("actions.account.get_tmbd_provider")
+    @patch("actions.account.get_tmbd_runtime")
     def test_get_watchlist(
         self,
         mock_get_tmbd_runtime,

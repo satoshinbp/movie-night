@@ -1,7 +1,7 @@
 import requests
 import os
 
-from src.schema import Region
+from schema import Region
 
 
 def get_tmbd_regions() -> list[Region]:

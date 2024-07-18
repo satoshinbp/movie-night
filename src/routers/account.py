@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from src.actions.account import get_watchlist
-from src.schema import Movie
+from actions.account import get_watchlist
+from schema import Movie
 
 account_router = APIRouter()
 

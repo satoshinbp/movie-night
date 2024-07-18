@@ -3,8 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from dotenv import load_dotenv
 
-from src.routers.account import account_router
-from src.routers.watch import watch_router
+from routers.account import account_router
+from routers.watch import watch_router
 
 app = FastAPI()
 

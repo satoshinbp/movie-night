@@ -1,7 +1,7 @@
-from src.tmbd.account import get_tmbd_watchlist
-from src.tmbd.movie import get_tmbd_provider, get_tmbd_runtime
-from src.tmbd.watch import get_tmbd_regions
-from src.schema import Movie
+from tmbd.account import get_tmbd_watchlist
+from tmbd.movie import get_tmbd_provider, get_tmbd_runtime
+from tmbd.watch import get_tmbd_regions
+from schema import Movie
 
 
 def get_watchlist(account_id: int) -> list[Movie]:

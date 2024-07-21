@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 from dotenv import load_dotenv
 
 from routers.account import account_router
@@ -20,9 +19,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+load_dotenv()
+
+app.get("/")(lambda: {"message": "Server is runningdayo"})
 app.include_router(account_router)
 app.include_router(watch_router)
-
-if __name__ == "__main__":
-    load_dotenv()
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="debug")

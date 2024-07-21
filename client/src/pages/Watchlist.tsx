@@ -41,9 +41,10 @@ export default function Watchlist() {
         const [regions, movies] = await Promise.all([fetchRegions(), fetchWatchlist()])
         setRegions(regions.map((r) => r.iso_3166_1))
         setMovies(movies)
-        setLoading(false)
       } catch (error) {
         console.error('Error fetching watchlist movies:', error)
+      } finally {
+        setLoading(false)
       }
     }
 

@@ -21,6 +21,6 @@ app.add_middleware(
 
 load_dotenv()
 
-app.get("/")(lambda: {"message": "Server is runningdayo"})
+app.get("/")(lambda: {"message": "Server is running"})
 app.include_router(account_router)
 app.include_router(watch_router)

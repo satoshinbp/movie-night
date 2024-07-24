@@ -1,4 +1,4 @@
-from actions.account import get_watchlist
+from actions.account import get_watchlist_with_details
 
 
 def test_get_watchlist(mocker):
@@ -22,7 +22,7 @@ def test_get_watchlist(mocker):
         movie_id
     ]
 
-    result = get_watchlist(123)
+    result = get_watchlist_with_details(123)
 
     expected_result = [
         {"id": 1, "netflix_regions": ["US"], "runtime": 120},

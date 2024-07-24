@@ -25,7 +25,10 @@ export default function MovieList({ movies, regions }: { movies: Movie[]; region
             </CardActionArea>
             <CardContent>
               <Stack spacing={1}>
-                <Typography variant="body2">{movie.title + ' (' + movie.runtime + ' mins)'}</Typography>
+                <Typography variant="body2" noWrap>
+                  {movie.title}
+                </Typography>
+                <Typography variant="body2">{'(' + movie.runtime + ' mins)'}</Typography>
                 {matchedRegions.length > 0 && (
                   <Stack direction="row" spacing={1}>
                     {matchedRegions.map((r) => (

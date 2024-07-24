@@ -1,8 +1,33 @@
 import requests
 import os
+from pydantic import BaseModel
 
 
-def get_tmbd_watchlist(account_id: int, page: int) -> dict:
+class WatchlistMovie(BaseModel):
+    adult: bool
+    backdrop_path: str | None
+    genre_ids: list[int]
+    id: int
+    original_language: str
+    original_title: str
+    overview: str
+    popularity: float
+    poster_path: str | None
+    release_date: str
+    title: str
+    video: bool
+    vote_average: float
+    vote_count: int
+
+
+class GetWatchlistMoviesResponseBody(BaseModel):
+    page: int
+    results: list[WatchlistMovie]
+    total_pages: int
+    total_results: int
+
+
+def get_watchlist_movies(account_id: int, page: int) -> GetWatchlistMoviesResponseBody:
     url = os.getenv("BASE_URL") + f"account/{account_id}/watchlist/movies"
     access_token = os.getenv("TMDB_ACCESS_TOKEN")
     response = requests.get(
@@ -20,13 +45,17 @@ def get_tmbd_watchlist(account_id: int, page: int) -> dict:
     return data
 
 
-def add_to_tmbd_watchlist(
+class AddToWatchlistResponseBody(BaseModel):
+    status_code: int
+    status_message: str
+
+
+def add_to_watchlist(
     account_id: int, media_type: str, media_id: int, add: bool
-) -> dict:
+) -> AddToWatchlistResponseBody:
     url = os.getenv("BASE_URL") + f"account/{account_id}/watchlist"
     access_token = os.getenv("TMDB_ACCESS_TOKEN")
     payload = {"media_type": media_type, "media_id": media_id, "watchlist": add}
-    print(url, payload)
     response = requests.post(
         url,
         headers={
@@ -37,5 +66,4 @@ def add_to_tmbd_watchlist(
         json=payload,
     )
     data = response.json()
-    print(data)
     return data

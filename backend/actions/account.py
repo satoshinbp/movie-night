@@ -1,6 +1,6 @@
-from apis.account import get_tmbd_watchlist, add_to_tmbd_watchlist
-from apis.movie import get_tmbd_provider, get_tmbd_runtime
-from apis.watch import get_tmbd_regions
+from apis.account import get_watchlist_movies, add_to_watchlist
+from apis.movie import get_movie_watch_provider, get_movie_details
+from apis.watch import get_watch_provider_regions
 from schemas.tmdb import Movie, Region
 from schemas.general import Status
 
@@ -9,9 +9,7 @@ def get_full_watchlist(account_id: int) -> list[Movie]:
     movies = []
     page = 1
     while True:
-        print(account_id)
-        data = get_tmbd_watchlist(account_id, page)
-        print(data["results"])
+        data = get_watchlist_movies(account_id, page)
         movies.extend(data["results"])
         if page == data["total_pages"]:
             break
@@ -20,7 +18,7 @@ def get_full_watchlist(account_id: int) -> list[Movie]:
 
 
 def get_netflix_regions(movie_id: int, regions: list[Region]) -> list[str]:
-    providers = get_tmbd_provider(movie_id)
+    providers = get_movie_watch_provider(movie_id)["results"]
     netflix_regions = []
     for region in regions:
         provider_region = providers.get(region["iso_3166_1"])
@@ -38,18 +36,18 @@ def get_netflix_regions(movie_id: int, regions: list[Region]) -> list[str]:
 
 def get_watchlist_with_details(account_id: int) -> list[Movie]:
     movies = get_full_watchlist(account_id)
-    regions = get_tmbd_regions()
+    regions = get_watch_provider_regions()["results"]
     for movie in movies:
         movie["netflix_regions"] = get_netflix_regions(movie["id"], regions)
-        movie["runtime"] = get_tmbd_runtime(movie["id"])
+        movie["runtime"] = get_movie_details(movie["id"])["runtime"]
     return movies
 
 
 def add_to_watchlist(account_id: int, movie_id: int) -> Status:
-    data = add_to_tmbd_watchlist(account_id, "movie", movie_id, True)
+    data = add_to_watchlist(account_id, "movie", movie_id, True)
     return {"success": data["success"], "message": data["status_message"]}
 
 
 def remove_from_watchlist(account_id: int, movie_id: int) -> Status:
-    data = add_to_tmbd_watchlist(account_id, "movie", movie_id, False)
+    data = add_to_watchlist(account_id, "movie", movie_id, False)
     return {"success": data["success"], "message": data["status_message"]}

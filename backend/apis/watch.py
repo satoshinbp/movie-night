@@ -1,10 +1,19 @@
 import requests
 import os
+from pydantic import BaseModel
 
-from schemas.tmdb import Region
+
+class Region(BaseModel):
+    iso_3166_1: str
+    english_name: str
+    native_name: str
 
 
-def get_tmbd_regions() -> list[Region]:
+class GetWatchProviderRegionsResponseBody(BaseModel):
+    results: list[Region]
+
+
+def get_watch_provider_regions() -> GetWatchProviderRegionsResponseBody:
     url = os.getenv("BASE_URL") + "watch/providers/regions"
     access_token = os.getenv("TMDB_ACCESS_TOKEN")
     response = requests.get(
@@ -17,4 +26,4 @@ def get_tmbd_regions() -> list[Region]:
         },
     )
     data = response.json()
-    return data["results"]
+    return data

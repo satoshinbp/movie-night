@@ -1,5 +1,6 @@
 import requests
 import os
+from functools import cache
 from pydantic import BaseModel
 
 
@@ -13,6 +14,7 @@ class GetWatchProviderRegionsResponseBody(BaseModel):
     results: list[Region]
 
 
+@cache
 def get_watch_provider_regions() -> GetWatchProviderRegionsResponseBody:
     url = os.getenv("BASE_URL") + "watch/providers/regions"
     access_token = os.getenv("TMDB_ACCESS_TOKEN")

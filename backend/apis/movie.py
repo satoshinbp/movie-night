@@ -1,5 +1,6 @@
 import requests
 import os
+from functools import cache
 from pydantic import BaseModel
 
 
@@ -72,6 +73,7 @@ class GetMovieDetailsResponseBody(BaseModel):
     vote_count: int
 
 
+@cache
 def get_movie_details(movie_id: int) -> GetMovieDetailsResponseBody:
     url = os.getenv("BASE_URL") + f"movie/{movie_id}"
     access_token = os.getenv("TMDB_ACCESS_TOKEN")

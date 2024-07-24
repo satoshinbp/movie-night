@@ -1,33 +1,19 @@
-from actions.account import get_watchlist_with_details
+from actions.account import get_full_watchlist
 
 
-def test_get_watchlist(mocker):
+def test_get_full_watchlist(mocker):
     mock_get_tmbd_watchlist = mocker.patch("actions.account.get_tmbd_watchlist")
-    mock_get_tmbd_regions = mocker.patch("actions.account.get_tmbd_regions")
-    mock_get_tmbd_provider = mocker.patch("actions.account.get_tmbd_provider")
-    mock_get_tmbd_runtime = mocker.patch("actions.account.get_tmbd_runtime")
 
-    mock_get_tmbd_watchlist.return_value = [{"id": 1}, {"id": 2}, {"id": 3}]
-    mock_get_tmbd_regions.return_value = [
-        {"iso_3166_1": "US"},
-        {"iso_3166_1": "CA"},
-        {"iso_3166_1": "UK"},
-    ]
-    mock_get_tmbd_provider.side_effect = lambda movie_id: {
-        1: {"US": {"flatrate": [{"provider_name": "Netflix"}]}},
-        2: {"CA": {"flatrate": [{"provider_name": "Netflix"}]}},
-        3: {"UK": {"flatrate": [{"provider_name": "Amazon Prime Video"}]}},
-    }[movie_id]
-    mock_get_tmbd_runtime.side_effect = lambda movie_id: {1: 120, 2: 90, 3: 105}[
-        movie_id
-    ]
+    def get_tmbd_watchlist(_, page):
+        total_results = [{"id": n} for n in range(30)]
+        start_index = (page - 1) * 20
+        end_index = start_index + 20
+        return {
+            "results": total_results[start_index:end_index],
+            "total_pages": 2 if len(total_results) > 20 else 1,
+        }
 
-    result = get_watchlist_with_details(123)
-
-    expected_result = [
-        {"id": 1, "netflix_regions": ["US"], "runtime": 120},
-        {"id": 2, "netflix_regions": ["CA"], "runtime": 90},
-        {"id": 3, "netflix_regions": [], "runtime": 105},
-    ]
-
+    mock_get_tmbd_watchlist.side_effect = get_tmbd_watchlist
+    result = get_full_watchlist(123)
+    expected_result = [{"id": n} for n in range(30)]
     assert result == expected_result

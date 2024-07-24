@@ -9,7 +9,9 @@ def get_full_watchlist(account_id: int) -> list[Movie]:
     movies = []
     page = 1
     while True:
+        print(account_id)
         data = get_tmbd_watchlist(account_id, page)
+        print(data["results"])
         movies.extend(data["results"])
         if page == data["total_pages"]:
             break

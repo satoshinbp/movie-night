@@ -4,4 +4,5 @@ pydantic==2.8
 fastapi==0.111
 uvicorn==0.30
 pytest==8.2
+pytest-cov==5.0
 pytest-mock==3.14

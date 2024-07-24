@@ -2,7 +2,7 @@ from actions.account import get_full_watchlist
 
 
 def test_get_full_watchlist(mocker):
-    mock_get_tmbd_watchlist = mocker.patch("actions.account.get_tmbd_watchlist")
+    mock_get_tmbd_watchlist = mocker.patch("actions.account.get_watchlist_movies")
 
     def get_tmbd_watchlist(_, page):
         total_results = [{"id": n} for n in range(30)]

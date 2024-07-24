@@ -1,7 +1,15 @@
-import { Card, CardActionArea, CardContent, CardMedia, Chip, Stack, Typography } from '@mui/material'
-import { Movie } from '../apis/tmdb'
+import { Button, Card, CardActionArea, CardContent, CardMedia, Chip, Stack, Typography } from '@mui/material'
+import { Movie } from '../types/movies'
 
-export default function MovieList({ movies, regions }: { movies: Movie[]; regions: string[] }) {
+export default function MovieList({
+  movies,
+  regions,
+  onRemove,
+}: {
+  movies: Movie[]
+  regions: string[]
+  onRemove: (movieId: number) => void
+}) {
   return (
     <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
       {movies.map((movie) => {
@@ -36,6 +44,7 @@ export default function MovieList({ movies, regions }: { movies: Movie[]; region
                     ))}
                   </Stack>
                 )}
+                <Button onClick={() => onRemove(movie.id)}>Remove</Button>
               </Stack>
             </CardContent>
           </Card>

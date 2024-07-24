@@ -43,11 +43,11 @@ def get_watchlist_with_details(account_id: int) -> list[Movie]:
     return movies
 
 
-def add_to_watchlist(account_id: int, movie_id: int) -> Status:
+def add_movie_to_watchlist(account_id: int, movie_id: int) -> Status:
     data = add_to_watchlist(account_id, "movie", movie_id, True)
     return {"success": data["success"], "message": data["status_message"]}
 
 
-def remove_from_watchlist(account_id: int, movie_id: int) -> Status:
+def remove_movie_from_watchlist(account_id: int, movie_id: int) -> Status:
     data = add_to_watchlist(account_id, "movie", movie_id, False)
     return {"success": data["success"], "message": data["status_message"]}

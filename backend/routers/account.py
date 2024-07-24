@@ -2,8 +2,8 @@ from fastapi import APIRouter, HTTPException
 
 from actions.account import (
     get_watchlist_with_details,
-    add_to_watchlist,
-    remove_from_watchlist,
+    add_movie_to_watchlist,
+    remove_movie_from_watchlist,
 )
 from schemas.tmdb import Movie
 from schemas.general import Status
@@ -22,7 +22,7 @@ def get_account_watchlist(account_id: int) -> list[Movie]:
 @account_router.post("/accounts/{account_id}/watchlist/add/{movie_id}")
 def add_to_account_watchlist(account_id: int, movie_id: int) -> Status:
     try:
-        status = add_to_watchlist(account_id, movie_id)
+        status = add_movie_to_watchlist(account_id, movie_id)
         if not status["success"]:
             raise RuntimeError(status["message"])
         return status
@@ -33,7 +33,7 @@ def add_to_account_watchlist(account_id: int, movie_id: int) -> Status:
 @account_router.post("/accounts/{account_id}/watchlist/remove/{movie_id}")
 def remove_from_account_watchlist(account_id: int, movie_id: int) -> Status:
     try:
-        status = remove_from_watchlist(account_id, movie_id)
+        status = remove_movie_from_watchlist(account_id, movie_id)
         if not status["success"]:
             raise RuntimeError(status["message"])
         return status

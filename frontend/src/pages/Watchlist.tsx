@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Container, SelectChangeEvent, Typography } from '@mui/material'
-import { fetchWatchlist, Movie, fetchRegions } from '../apis/tmdb'
+import { fetchWatchlist, fetchRegions, removeFromWatchlist } from '../apis/movies'
 import MovieList from '../components/MovieList'
 import RegionSelect from '../components/RegionSelect'
+import { Movie } from '../types/movies'
 
 const defaultRegions = ['CA', 'JP']
 
@@ -51,6 +52,15 @@ export default function Watchlist() {
     refreshWatchlistMovies()
   }, [])
 
+  const handleRemove = async (movieId: number) => {
+    try {
+      await removeFromWatchlist(movieId)
+      setMovies(movies.filter((m) => m.id !== movieId))
+    } catch {
+      console.error('Failed to remove movie from watchlist')
+    }
+  }
+
   if (loading) return <div>loading...</div>
   return (
     <Container>
@@ -59,7 +69,11 @@ export default function Watchlist() {
       </Typography>
       <RegionSelect regions={regions} selectedRegions={selectedRegions} onRegionChange={onRegionChange} />
       {movies.length > 0 && (
-        <MovieList movies={movies.sort(compareMovies(selectedRegions))} regions={selectedRegions} />
+        <MovieList
+          movies={movies.sort(compareMovies(selectedRegions))}
+          regions={selectedRegions}
+          onRemove={handleRemove}
+        />
       )}
     </Container>
   )

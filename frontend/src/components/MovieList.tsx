@@ -1,5 +1,6 @@
-import { Button, Card, CardActionArea, CardContent, CardMedia, Chip, Stack, Typography } from '@mui/material'
+import { Card, CardActionArea, CardContent, CardMedia, Chip, Fab, Stack, Typography } from '@mui/material'
 import { Movie } from '../types/movies'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 export default function MovieList({
   movies,
@@ -22,6 +23,7 @@ export default function MovieList({
             }}
           >
             <CardActionArea
+              sx={{ position: 'relative' }}
               href={movie.netflix_regions.length > 0 ? 'https://www.netflix.com/search?q=' + movie.title : ''}
               target="_blank"
             >
@@ -30,6 +32,14 @@ export default function MovieList({
                 image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                 title={movie.title}
               />
+              <Fab
+                size="small"
+                aria-label="remove"
+                sx={{ position: 'absolute', top: 8, right: 8 }}
+                onClick={() => onRemove(movie.id)}
+              >
+                <DeleteIcon />
+              </Fab>
             </CardActionArea>
             <CardContent>
               <Stack spacing={1}>
@@ -44,7 +54,6 @@ export default function MovieList({
                     ))}
                   </Stack>
                 )}
-                <Button onClick={() => onRemove(movie.id)}>Remove</Button>
               </Stack>
             </CardContent>
           </Card>

@@ -16,19 +16,26 @@ export default function MovieList({
       {movies.map((movie) => {
         const matchedRegions = movie.netflix_regions.filter((r) => regions.includes(r))
         return (
-          <Card
-            sx={{
-              width: 130,
-              backgroundColor: matchedRegions.length > 0 ? 'inherit' : 'grey',
-            }}
-          >
+          <Card sx={{ position: 'relative', width: 276 }}>
             <CardActionArea
-              sx={{ position: 'relative' }}
               href={movie.netflix_regions.length > 0 ? 'https://www.netflix.com/search?q=' + movie.title : ''}
               target="_blank"
             >
+              {matchedRegions.length === 0 && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'grey',
+                    opacity: 0.5,
+                  }}
+                />
+              )}
               <CardMedia
-                sx={{ height: 216 }}
+                sx={{ height: 414 }}
                 image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                 title={movie.title}
               />
@@ -40,22 +47,19 @@ export default function MovieList({
               >
                 <DeleteIcon />
               </Fab>
+              {matchedRegions.length > 0 && (
+                <Stack direction="row" spacing={1} sx={{ position: 'absolute', bottom: 8, left: 8 }}>
+                  {matchedRegions.map((r) => (
+                    <Chip key={r} label={r} color="primary" />
+                  ))}
+                </Stack>
+              )}
+              <Chip
+                label={movie.runtime + ' mins'}
+                sx={{ position: 'absolute', bottom: 8, right: 8 }}
+                color="secondary"
+              />
             </CardActionArea>
-            <CardContent>
-              <Stack spacing={1}>
-                <Typography variant="body2" noWrap>
-                  {movie.title}
-                </Typography>
-                <Typography variant="body2">{'(' + movie.runtime + ' mins)'}</Typography>
-                {matchedRegions.length > 0 && (
-                  <Stack direction="row" spacing={1}>
-                    {matchedRegions.map((r) => (
-                      <Chip key={r} label={r} />
-                    ))}
-                  </Stack>
-                )}
-              </Stack>
-            </CardContent>
           </Card>
         )
       })}

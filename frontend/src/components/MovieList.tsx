@@ -1,22 +1,34 @@
-import { Card, CardActionArea, CardContent, CardMedia, Chip, Fab, Stack, Typography } from '@mui/material'
+import { Card, CardActionArea, CardMedia, Chip, Fab, Stack, useTheme } from '@mui/material'
 import { Movie } from '../types/movies'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { useEffect, useRef, useState } from 'react'
 
 export default function MovieList({
   movies,
   regions,
   onRemove,
+  cols = 6,
 }: {
   movies: Movie[]
   regions: string[]
   onRemove: (movieId: number) => void
+  cols?: number
 }) {
+  const [width, setWidth] = useState(0)
+  const gap = Number(useTheme().spacing(2).slice(0, -2))
+  const elementRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (elementRef.current) {
+      setWidth((elementRef.current.offsetWidth + gap) / cols - gap)
+    }
+  }, [cols, gap])
+
   return (
-    <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
+    <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap" ref={elementRef}>
       {movies.map((movie) => {
         const matchedRegions = movie.netflix_regions.filter((r) => regions.includes(r))
         return (
-          <Card sx={{ position: 'relative', width: 276 }}>
+          <Card sx={{ position: 'relative', width }}>
             <CardActionArea
               href={movie.netflix_regions.length > 0 ? 'https://www.netflix.com/search?q=' + movie.title : ''}
               target="_blank"
@@ -35,7 +47,7 @@ export default function MovieList({
                 />
               )}
               <CardMedia
-                sx={{ height: 414 }}
+                sx={{ height: width * 1.5 }}
                 image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                 title={movie.title}
               />

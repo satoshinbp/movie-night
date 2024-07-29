@@ -17,28 +17,28 @@ def get_full_watchlist(account_id: int) -> list[Movie]:
     return movies
 
 
-def get_netflix_regions(movie_id: int, regions: list[Region]) -> list[str]:
+def get_provider_regions(
+    provider_name: str, movie_id: int, regions: list[Region]
+) -> list[str]:
     providers = get_movie_watch_provider(movie_id)["results"]
-    netflix_regions = []
+    provider_regions = []
     for region in regions:
         provider_region = providers.get(region["iso_3166_1"])
         if not provider_region:
             continue
-
         flatrate = provider_region.get("flatrate")
         if not flatrate:
             continue
-
-        if "Netflix" in [provider["provider_name"] for provider in flatrate]:
-            netflix_regions.append(region["iso_3166_1"])
-    return netflix_regions
+        if provider_name in [provider["provider_name"] for provider in flatrate]:
+            provider_regions.append(region["iso_3166_1"])
+    return provider_regions
 
 
 def get_watchlist_with_details(account_id: int) -> list[Movie]:
     movies = get_full_watchlist(account_id)
     regions = get_watch_provider_regions()["results"]
     for movie in movies:
-        movie["netflix_regions"] = get_netflix_regions(movie["id"], regions)
+        movie["netflix_regions"] = get_provider_regions("Netflix", movie["id"], regions)
         movie["runtime"] = get_movie_details(movie["id"])["runtime"]
     return movies
 

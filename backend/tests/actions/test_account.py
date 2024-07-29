@@ -1,4 +1,7 @@
-from actions.account import get_full_watchlist
+from actions.account import (
+    get_full_watchlist,
+    get_provider_regions,
+)
 
 
 def test_get_full_watchlist(mocker):
@@ -17,3 +20,31 @@ def test_get_full_watchlist(mocker):
     result = get_full_watchlist(123)
     expected_result = [{"id": n} for n in range(30)]
     assert result == expected_result
+
+
+def test_get_provider_regions(mocker):
+    mock_get_movie_watch_provider = mocker.patch(
+        "actions.account.get_movie_watch_provider"
+    )
+
+    mock_get_movie_watch_provider.return_value = {
+        "results": {
+            "CA": {"flatrate": [{"provider_name": "Netflix"}]},
+            "JP": {"flatrate": [{"provider_name": "Amazon Prime Video"}]},
+            "US": {"flatrate": [{"provider_name": "Netflix"}]},
+        }
+    }
+
+    result = get_provider_regions(
+        "Netflix",
+        123,
+        [{"iso_3166_1": "CA"}, {"iso_3166_1": "JP"}, {"iso_3166_1": "US"}],
+    )
+    assert result == ["CA", "US"]
+
+    result = get_provider_regions(
+        "Amazon Prime Video",
+        123,
+        [{"iso_3166_1": "CA"}, {"iso_3166_1": "JP"}, {"iso_3166_1": "US"}],
+    )
+    assert result == ["JP"]

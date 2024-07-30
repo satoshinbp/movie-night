@@ -29,7 +29,19 @@ export default function MovieList({
         const matchedRegions = movie.netflix_regions.filter((r) => regions.includes(r))
         return (
           <Card sx={{ position: 'relative', width }}>
-            {matchedRegions.length === 0 && (
+            {matchedRegions.length > 0 ? (
+              <Fab
+                size="small"
+                aria-label="remove"
+                sx={{ position: 'absolute', bottom: 8, right: 8 }}
+                variant="extended"
+                onClick={() => {
+                  window.open('https://www.netflix.com/search?q=' + movie.title, '_blank')
+                }}
+              >
+                Netflix
+              </Fab>
+            ) : (
               <div
                 style={{
                   position: 'absolute',
@@ -40,9 +52,6 @@ export default function MovieList({
                   backgroundColor: 'grey',
                   opacity: 0.5,
                 }}
-                onClick={() => {
-                  window.open('https://www.themoviedb.org/movie/' + movie.id, '_blank')
-                }}
               />
             )}
             <CardMedia
@@ -50,7 +59,7 @@ export default function MovieList({
               image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
               title={movie.title}
               onClick={() => {
-                window.open('https://www.netflix.com/search?q=' + movie.title, '_blank')
+                window.open('https://www.themoviedb.org/movie/' + movie.id, '_blank')
               }}
             />
             <Chip

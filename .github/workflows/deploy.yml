@@ -23,8 +23,8 @@ jobs:
 
       - name: Deploy to Raspberry Pi
         run: |
-          ssh -o StrictHostKeyChecking=no pi@<YOUR_RASPBERRY_PI_IP> << 'EOF'
-            cd /path/to/your/project
+          ssh -o StrictHostKeyChecking=no pi@192.168.1.60 << 'EOF'
+            cd /Documents
             docker-compose down
             git pull
             docker-compose up -d

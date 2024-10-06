@@ -1,6 +1,7 @@
 import requests
-import os
 from pydantic import BaseModel
+
+from . import BASE_URL, GET_REQ_HEADERS, POST_REQ_HEADERS
 
 
 class WatchlistMovie(BaseModel):
@@ -28,18 +29,14 @@ class GetWatchlistMoviesResponseBody(BaseModel):
 
 
 def get_watchlist_movies(account_id: int, page: int) -> GetWatchlistMoviesResponseBody:
-    url = os.getenv("BASE_URL") + f"account/{account_id}/watchlist/movies"
-    access_token = os.getenv("TMDB_ACCESS_TOKEN")
+    url = BASE_URL + f"account/{account_id}/watchlist/movies"
     response = requests.get(
         url,
         params={
             "language": "en-US",
             "page": page,
         },
-        headers={
-            "accept": "application/json",
-            "Authorization": f"Bearer {access_token}",
-        },
+        headers=GET_REQ_HEADERS,
     )
     data = response.json()
     return data
@@ -53,16 +50,11 @@ class AddToWatchlistResponseBody(BaseModel):
 def add_to_watchlist(
     account_id: int, media_type: str, media_id: int, add: bool
 ) -> AddToWatchlistResponseBody:
-    url = os.getenv("BASE_URL") + f"account/{account_id}/watchlist"
-    access_token = os.getenv("TMDB_ACCESS_TOKEN")
+    url = BASE_URL + f"account/{account_id}/watchlist"
     payload = {"media_type": media_type, "media_id": media_id, "watchlist": add}
     response = requests.post(
         url,
-        headers={
-            "accept": "application/json",
-            "content-type": "application/json",
-            "Authorization": f"Bearer {access_token}",
-        },
+        headers=POST_REQ_HEADERS,
         json=payload,
     )
     data = response.json()

@@ -1,7 +1,8 @@
 import requests
-import os
 from functools import cache
 from pydantic import BaseModel
+
+from . import BASE_URL, GET_REQ_HEADERS
 
 
 class GetMovieWatchProviderResponseBody(BaseModel):
@@ -10,13 +11,10 @@ class GetMovieWatchProviderResponseBody(BaseModel):
 
 
 def get_movie_watch_provider(movie_id: int) -> GetMovieWatchProviderResponseBody:
-    url = os.getenv("BASE_URL") + f"movie/{movie_id}/watch/providers"
-    access_token = os.getenv("TMDB_ACCESS_TOKEN")
+    url = BASE_URL + f"movie/{movie_id}/watch/providers"
     response = requests.get(
         url,
-        headers={
-            "Authorization": f"Bearer {access_token}",
-        },
+        headers=GET_REQ_HEADERS,
     )
     data = response.json()
     return data
@@ -75,13 +73,10 @@ class GetMovieDetailsResponseBody(BaseModel):
 
 @cache
 def get_movie_details(movie_id: int) -> GetMovieDetailsResponseBody:
-    url = os.getenv("BASE_URL") + f"movie/{movie_id}"
-    access_token = os.getenv("TMDB_ACCESS_TOKEN")
+    url = BASE_URL + f"movie/{movie_id}"
     response = requests.get(
         url,
-        headers={
-            "Authorization": f"Bearer {access_token}",
-        },
+        headers=GET_REQ_HEADERS,
     )
     data = response.json()
     return data

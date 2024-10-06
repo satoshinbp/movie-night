@@ -1,7 +1,8 @@
 import requests
-import os
 from functools import cache
 from pydantic import BaseModel
+
+from . import BASE_URL, GET_REQ_HEADERS
 
 
 class Region(BaseModel):
@@ -16,16 +17,13 @@ class GetWatchProviderRegionsResponseBody(BaseModel):
 
 @cache
 def get_watch_provider_regions() -> GetWatchProviderRegionsResponseBody:
-    url = os.getenv("BASE_URL") + "watch/providers/regions"
-    access_token = os.getenv("TMDB_ACCESS_TOKEN")
+    url = BASE_URL + "watch/providers/regions"
     response = requests.get(
         url,
         params={
             "language": "en-US",
         },
-        headers={
-            "Authorization": f"Bearer {access_token}",
-        },
+        headers=GET_REQ_HEADERS,
     )
     data = response.json()
     return data

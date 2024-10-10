@@ -5,8 +5,7 @@ from actions.account import (
     add_movie_to_watchlist,
     remove_movie_from_watchlist,
 )
-from schemas.tmdb import Movie
-from schemas.general import Status
+from schemas.general import Movie, Status
 
 account_router = APIRouter()
 

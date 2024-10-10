@@ -14,3 +14,5 @@ POST_REQ_HEADERS = {
     "content-type": "application/json",
     "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}",
 }
+
+LANGUAGE = "en-US"

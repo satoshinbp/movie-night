@@ -1,8 +1,7 @@
 from apis.account import get_watchlist_movies, add_to_watchlist
 from apis.movie import get_movie_watch_provider, get_movie_details
 from apis.watch import get_watch_provider_regions
-from schemas.tmdb import Movie, Region
-from schemas.general import Status
+from schemas.general import Status, Movie, Region
 
 
 def get_full_watchlist(account_id: int) -> list[Movie]:

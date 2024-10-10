@@ -1,28 +1,19 @@
 import requests
 from functools import cache
-from pydantic import BaseModel
-
-from . import BASE_URL, GET_REQ_HEADERS
-
-
-class Region(BaseModel):
-    iso_3166_1: str
-    english_name: str
-    native_name: str
+from schemas.tmdb import ListResponse, Region
+from . import BASE_URL, GET_REQ_HEADERS, LANGUAGE
 
 
-class GetWatchProviderRegionsResponseBody(BaseModel):
-    results: list[Region]
+def get_watch_providers_route() -> str:
+    return BASE_URL + "watch/providers"
 
 
 @cache
-def get_watch_provider_regions() -> GetWatchProviderRegionsResponseBody:
-    url = BASE_URL + "watch/providers/regions"
+def get_watch_provider_regions() -> ListResponse[Region]:
+    url = get_watch_providers_route() + "/regions"
     response = requests.get(
         url,
-        params={
-            "language": "en-US",
-        },
+        params={"language": LANGUAGE},
         headers=GET_REQ_HEADERS,
     )
     data = response.json()
